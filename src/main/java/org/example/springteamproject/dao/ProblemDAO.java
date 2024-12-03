@@ -38,8 +38,8 @@ public class ProblemDAO {
         return list;
     }
 
-    public int getTotalcnt() {
-        int totalCount = sqlSession.selectOne("Problem.getTotalcnt");  // selectOne 쿼리 실행
+    public int getTotalCnt() {
+        int totalCount = sqlSession.selectOne("Problem.getTotalCnt");  // selectOne 쿼리 실행
         return totalCount;
     }
 }
