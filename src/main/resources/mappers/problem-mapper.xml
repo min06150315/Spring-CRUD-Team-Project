@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Problem">
+    <insert id="insertProblem">
+        INSERT INTO PROBLEMS ( title, description, language, filePath, difficulty, writer )
+        VALUES
+            ( #{title}, #{description}, #{language}, #{filePath}, #{difficulty}, #{writer} )
+    </insert>
+
+    <update id="updateProblem">
+        UPDATE PROBLEMS
+        SET title=#{title}, description=#{description}, language=#{language}, difficulty=#{difficulty}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteProblem">
+        DELETE FROM PROBLEMS WHERE id=#{id}
+    </delete>
+
+    <select id="getProblem" resultType="problem">
+        SELECT * FROM PROBLEMS WHERE id=#{id}
+    </select>
+
+    <select id="getTotalCnt" resultType="int">
+        SELECT COUNT(*) FROM PROBLEMS
+    </select>
+
+    <select id="getProblemList" resultType="problem">
+        SELECT * FROM PROBLEMS ORDER BY id DESC
+    </select>
+</mapper>

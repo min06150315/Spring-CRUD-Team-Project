@@ -5,18 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProblemVO {
+public class MemberVO {
     private int id;
-    private String title;
-    private String description;
-    private String created_at;
-    private String language;
-    private String filePath;
-    private String difficulty;
-    private String writer;
+    private String username;
+    private String password;
 }
