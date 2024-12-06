@@ -37,7 +37,7 @@
     <c:forEach items="${list}" var="u" varStatus="status">
       <tr>
         <td>${totalcnt-status.index}</td>
-        <td>${u.title}</td>
+        <td><a href="./view/${u.id}">${u.title}</a></td>
         <td>${u.language}</td>
         <td>${u.difficulty}</td>
         <td>${u.writer}</td>
