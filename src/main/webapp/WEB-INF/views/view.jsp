@@ -5,7 +5,7 @@
   Time: 10:58 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -63,51 +63,33 @@
     }
   </style>
 </head>
+<!-- TODO: Make Code Preview Feature -->
 <body>
 <div class="container">
   <h1>글 세부 정보</h1>
   <div id="details">
     <div class="detail">
       <strong>글 제목:</strong>
-      <p id="view-title">제목이 표시됩니다</p>
+      <p id="view-title">${problemVO.title}</p>
     </div>
     <div class="detail">
       <strong>프로그래밍 언어:</strong>
-      <p id="view-language">언어가 표시됩니다</p>
+      <p id="view-language">${problemVO.language}</p>
     </div>
     <div class="detail">
       <strong>난이도:</strong>
-      <p id="view-difficulty">난이도가 표시됩니다</p>
+      <p id="view-difficulty">${problemVO.difficulty}</p>
     </div>
     <div class="detail">
       <strong>작성자:</strong>
-      <p id="view-author">작성자가 표시됩니다</p>
+      <p id="view-author">${problemVO.writer}</p>
     </div>
   </div>
-  <button onclick="goBack()">돌아가기</button>
+  <button onclick="returnToList()">Return to list</button>
 </div>
-
 <script>
-  // 입력 데이터를 가져와서 표시하는 함수
-  document.addEventListener("DOMContentLoaded", () => {
-    // 예제 데이터 (로컬 스토리지나 서버에서 가져온 데이터로 교체 가능)
-    const postData = JSON.parse(localStorage.getItem("postData")) || {
-      title: "입력된 제목이 없습니다",
-      language: "입력된 언어가 없습니다",
-      difficulty: "입력된 난이도가 없습니다",
-      author: "입력된 작성자가 없습니다"
-    };
-
-    // HTML에 데이터 삽입
-    document.getElementById("view-title").textContent = postData.title;
-    document.getElementById("view-language").textContent = postData.language;
-    document.getElementById("view-difficulty").textContent = postData.difficulty;
-    document.getElementById("view-author").textContent = postData.author;
-  });
-
-  // 돌아가기 버튼 동작
-  function goBack() {
-    window.history.back();
+  function returnToList() {
+    location.href = '../list';
   }
 </script>
 </body>

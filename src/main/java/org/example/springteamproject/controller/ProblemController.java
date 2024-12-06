@@ -28,6 +28,13 @@ public class ProblemController {
         return "posts";
     }
 
+    @RequestMapping("/problem/view/{id}")
+    public String problemView(@PathVariable("id") Integer id, Model model) {
+        ProblemVO problemVO = problemService.getProblem(id);
+        model.addAttribute("problemVO", problemVO);
+        return "view";
+    }
+
     @RequestMapping(value = "/problem/add", method = RequestMethod.GET)
     public String problemAdd() {
         return "addpostform";
