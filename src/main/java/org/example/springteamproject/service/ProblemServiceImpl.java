@@ -15,19 +15,16 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public int insertProblem(ProblemVO vo) {
-        System.out.println("insertProblem()");
         return problemDAO.insertProblem(vo);
     }
 
     @Override
     public int deleteProblem(int id) {
-        System.out.println("deleteProblem()");
         return problemDAO.deleteProblem(id);
     }
 
     @Override
     public int updateProblem(ProblemVO vo) {
-        System.out.println("updateProblem()");
         return problemDAO.updateProblem(vo);
     }
 
