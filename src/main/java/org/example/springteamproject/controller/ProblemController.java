@@ -25,7 +25,7 @@ public class ProblemController {
     public String problemList(Model model){
         model.addAttribute("totalcnt", problemService.getTotalCnt());
         model.addAttribute("list", problemService.getProblemList());
-        return "posts";
+        return "list";
     }
 
     @RequestMapping("/problem/view/{id}")
@@ -37,7 +37,7 @@ public class ProblemController {
 
     @RequestMapping(value = "/problem/add", method = RequestMethod.GET)
     public String problemAdd() {
-        return "addpostform";
+        return "add";
     }
 
     @RequestMapping(value = "problem/addok", method = RequestMethod.POST)
@@ -54,7 +54,7 @@ public class ProblemController {
     public String problemEdit(@PathVariable("id") Integer id, Model model) {
         ProblemVO problemVO = problemService.getProblem(id);
         model.addAttribute("problemVO", problemVO);
-        return "editform";
+        return "edit";
     }
 
     @RequestMapping(value = "/problem/editok", method = RequestMethod.POST)
