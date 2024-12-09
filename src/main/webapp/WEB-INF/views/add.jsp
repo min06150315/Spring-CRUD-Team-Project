@@ -4,16 +4,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>Add New Post</title>
 </head>
 <body>
 
 <h1>Add New Post</h1>
-<form action="<%= request.getContextPath() %>/problem/addok" method="post" enctype="application/x-www-form-urlencoded">
+<form action="<%= request.getContextPath() %>/problem/addok" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td><label for="title">Title: </label></td>
-            <td><input type="text" name="title" id="title" required /></td> <!-- name="title" 확인 -->
+            <td><input type="text" name="title" id="title" required /></td>
         </tr>
         <tr>
             <td><label for="description">Description: </label></td>
@@ -24,8 +24,8 @@
             <td><input type="text" name="language" id="language" required /></td>
         </tr>
         <tr>
-            <td><label for="filePath">FilePath: </label></td>
-            <td><input type="text" name="filePath" id="filePath" required /></td>
+            <td><label for="file">File Upload: </label></td>
+            <td><input type="file" name="file" id="file" required /></td>
         </tr>
         <tr>
             <td><label for="difficulty">Difficulty: </label></td>
@@ -50,7 +50,6 @@
         </tr>
     </table>
 </form>
-
 
 </body>
 </html>
