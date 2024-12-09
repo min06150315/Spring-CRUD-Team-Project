@@ -11,7 +11,7 @@ import java.util.List;
 public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
-    ProblemDAO problemDAO;
+    private ProblemDAO problemDAO;
 
     @Override
     public int insertProblem(ProblemVO vo) {
@@ -34,12 +34,12 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<ProblemVO> getProblemList() {
-        return problemDAO.getProblemList();
+    public int getTotalCnt() {
+        return problemDAO.getTotalCnt();
     }
 
     @Override
-    public int getTotalCnt() {
-        return problemDAO.getTotalCnt();
+    public List<ProblemVO> getProblemList() {
+        return problemDAO.getProblemList();
     }
 }
