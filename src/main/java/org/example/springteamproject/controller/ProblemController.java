@@ -44,8 +44,7 @@ public class ProblemController {
     public String problemAddOK(ProblemVO vo) {
         System.out.println("Received VO: " + vo); // 디버그용 로그
 
-        if (vo.getTitle() == null || vo.getTitle().isEmpty()) {src/main/java/org/example/springteamproject/controller/ProblemController.java
-
+        if (vo.getTitle() == null || vo.getTitle().isEmpty()) {
             System.out.println("Title is null or empty!");
             return "redirect:add?error=title_missing";
         }
