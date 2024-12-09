@@ -1,6 +1,7 @@
 package org.example.springteamproject.vo;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Getter
@@ -17,4 +18,6 @@ public class ProblemVO {
     private String filePath;
     private String difficulty;
     private String writer;
+
+    private MultipartFile file;
 }
