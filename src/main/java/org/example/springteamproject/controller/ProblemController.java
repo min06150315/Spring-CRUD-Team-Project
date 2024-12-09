@@ -1,6 +1,6 @@
 package org.example.springteamproject.controller;
 
-import org.example.springteamproject.service.ProblemServiceImpl;
+import org.example.springteamproject.service.ProblemService;
 import org.example.springteamproject.vo.ProblemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ProblemController {
 
     @Autowired
-    ProblemServiceImpl problemService;
+    ProblemService problemService;
 
     @RequestMapping("/")
     public String home() {
@@ -40,8 +40,16 @@ public class ProblemController {
         return "add";
     }
 
-    @RequestMapping(value = "problem/addok", method = RequestMethod.POST)
+    @RequestMapping(value = "/problem/addok", method = RequestMethod.POST)
     public String problemAddOK(ProblemVO vo) {
+        System.out.println("Received VO: " + vo); // 디버그용 로그
+
+        if (vo.getTitle() == null || vo.getTitle().isEmpty()) {src/main/java/org/example/springteamproject/controller/ProblemController.java
+
+            System.out.println("Title is null or empty!");
+            return "redirect:add?error=title_missing";
+        }
+
         int i = problemService.insertProblem(vo);
         if (i == 0)
             System.out.println("데이터 추가 실패!");
