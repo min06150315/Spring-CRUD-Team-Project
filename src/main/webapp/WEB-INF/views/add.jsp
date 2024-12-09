@@ -9,11 +9,11 @@
 <body>
 
 <h1>Add New Post</h1>
-<form action="./addok" method="post">
+<form action="<%= request.getContextPath() %>/problem/addok" method="post" enctype="application/x-www-form-urlencoded">
     <table>
         <tr>
             <td><label for="title">Title: </label></td>
-            <td><input type="text" name="title" id="title" required /></td>
+            <td><input type="text" name="title" id="title" required /></td> <!-- name="title" 확인 -->
         </tr>
         <tr>
             <td><label for="description">Description: </label></td>
@@ -31,7 +31,7 @@
             <td><label for="difficulty">Difficulty: </label></td>
             <td>
                 <select name="difficulty" id="difficulty" required>
-                    <option disabled selected>Select the Difficulty</option>
+                    <option disabled selected value="">Select the Difficulty</option>
                     <option>Easy</option>
                     <option>Medium</option>
                     <option>Hard</option>
@@ -44,12 +44,13 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="Add Post"/>
+                <input type="submit" value="Add Post" />
                 <input type="button" value="Cancel" onclick="history.back()" />
             </td>
         </tr>
     </table>
 </form>
+
 
 </body>
 </html>
