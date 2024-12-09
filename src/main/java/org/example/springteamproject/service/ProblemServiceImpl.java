@@ -11,23 +11,20 @@ import java.util.List;
 public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
-    ProblemDAO problemDAO;
+    private ProblemDAO problemDAO;
 
     @Override
     public int insertProblem(ProblemVO vo) {
-        System.out.println("insertProblem()");
         return problemDAO.insertProblem(vo);
     }
 
     @Override
     public int deleteProblem(int id) {
-        System.out.println("deleteProblem()");
         return problemDAO.deleteProblem(id);
     }
 
     @Override
     public int updateProblem(ProblemVO vo) {
-        System.out.println("updateProblem()");
         return problemDAO.updateProblem(vo);
     }
 
@@ -37,12 +34,12 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<ProblemVO> getProblemList() {
-        return problemDAO.getProblemList();
+    public int getTotalCnt() {
+        return problemDAO.getTotalCnt();
     }
 
     @Override
-    public int getTotalCnt() {
-        return problemDAO.getTotalCnt();
+    public List<ProblemVO> getProblemList() {
+        return problemDAO.getProblemList();
     }
 }

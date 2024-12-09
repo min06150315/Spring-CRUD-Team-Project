@@ -1,15 +1,14 @@
 package org.example.springteamproject.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class ProblemVO {
     private int id;
     private String title;
@@ -19,4 +18,6 @@ public class ProblemVO {
     private String filePath;
     private String difficulty;
     private String writer;
+
+    private MultipartFile file;
 }

@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Problem">
+<mapper namespace="org.example.springteamproject.mapper.ProblemMapper">
+
     <insert id="insertProblem">
-        INSERT INTO PROBLEMS ( title, description, language, filePath, difficulty, writer )
-        VALUES
-            ( #{title}, #{description}, #{language}, #{filePath}, #{difficulty}, #{writer} )
+        INSERT INTO PROBLEMS (title, description, language, filePath, difficulty, writer)
+        VALUES (#{title}, #{description}, #{language}, #{filePath}, #{difficulty}, #{writer})
     </insert>
 
     <update id="updateProblem">
@@ -19,7 +19,7 @@
         DELETE FROM PROBLEMS WHERE id=#{id}
     </delete>
 
-    <select id="getProblem" resultType="problem">
+    <select id="getProblem" resultType="org.example.springteamproject.vo.ProblemVO">
         SELECT * FROM PROBLEMS WHERE id=#{id}
     </select>
 
@@ -27,7 +27,7 @@
         SELECT COUNT(*) FROM PROBLEMS
     </select>
 
-    <select id="getProblemList" resultType="problem">
+    <select id="getProblemList" resultType="org.example.springteamproject.vo.ProblemVO">
         SELECT * FROM PROBLEMS ORDER BY id DESC
     </select>
 </mapper>

@@ -6,4 +6,7 @@
     <typeAliases>
         <typeAlias alias="problem" type="org.example.springteamproject.vo.ProblemVO" />
     </typeAliases>
+    <mappers>
+        <mapper class="org.example.springteamproject.mapper.ProblemMapper"/>
+    </mappers>
 </configuration>
