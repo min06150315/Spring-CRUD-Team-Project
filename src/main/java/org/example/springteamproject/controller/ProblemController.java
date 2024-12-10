@@ -76,7 +76,7 @@ public class ProblemController {
             return "redirect:problem/add?error=upload_failed";
         }
 
-        return "redirect:problem/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "/problem/edit/{id}", method = RequestMethod.GET)
@@ -87,17 +87,25 @@ public class ProblemController {
     }
 
     @RequestMapping(value = "/problem/editok", method = RequestMethod.POST)
-    public String problemEditOK(@ModelAttribute ProblemVO vo, @RequestParam("filePath") MultipartFile file, HttpServletRequest request) {
+    public String problemEditOK(@ModelAttribute ProblemVO vo, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         try {
+            if (vo.getFilePath() == null || vo.getFilePath().isEmpty()) {
+                vo.setFilePath("default/path"); // 기본값 설정
+            }
+
             // 기존 파일 삭제 및 새 파일 저장
             deleteFile(vo.getFilePath());
-            String savedFileName = saveFileWithRenamePolicy(file, request);
-            vo.setFilePath(savedFileName);
+            String savedFileName = saveFileWithRenamePolicy(file, request); // 파일 저장
+            vo.setFilePath(savedFileName); // 저장된 경로를 VO에 설정
 
-            int result = problemService.updateProblem(vo);
-            if (result == 0) {
+            int i = problemService.updateProblem(vo);
+            if (i == 0) {
                 System.out.println("데이터 수정 실패!");
                 return "redirect:/problem/edit/" + vo.getId() + "?error=update_failed";
+            } else {
+                System.out.println("데이터 수정 성공!");
+                System.out.println("Saved File Path: " + savedFileName);
+                System.out.println("VO File Path Before Update: " + vo.getFilePath());
             }
         } catch (IOException e) {
             e.printStackTrace();
