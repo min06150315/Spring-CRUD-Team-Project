@@ -30,9 +30,18 @@ public class ProblemController {
     }
 
     @RequestMapping(value = "/problem/list", method = RequestMethod.GET)
-    public String problemList(Model model) {
+    public String problemList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model) {
+        System.out.println("Search Keyword: " + searchKeyword);
+
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            model.addAttribute("list", problemService.searchProblems(searchKeyword));
+        } else {
+            model.addAttribute("list", problemService.getProblemList());
+        }
+
         model.addAttribute("totalcnt", problemService.getTotalCnt());
-        model.addAttribute("list", problemService.getProblemList());
+        model.addAttribute("searchKeyword", searchKeyword);
+
         return "problem/list";
     }
 
