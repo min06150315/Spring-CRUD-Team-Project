@@ -11,4 +11,5 @@ public interface ProblemService {
     ProblemVO getProblem(int id);
     List<ProblemVO> getProblemList();
     int getTotalCnt();
+    List<ProblemVO> searchProblems(String keyword);
 }
