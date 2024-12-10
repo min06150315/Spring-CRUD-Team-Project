@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -61,7 +62,18 @@
     button:hover {
       background-color: #45a049;
     }
+    .code-block {
+      margin-top: 30px;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
   </style>
+  <!-- Prism.js CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css" rel="stylesheet" />
 </head>
 <!-- TODO: Make Code Preview Feature -->
 <body>
@@ -85,8 +97,23 @@
       <p id="view-author">${problemVO.writer}</p>
     </div>
   </div>
+
+  <!-- Source Code Preview -->
+  <div class="code-block">
+    <h2>소스 코드</h2>
+    <pre><code class="language-${problemVO.language.toLowerCase()}">${codeContent}</code></pre>
+  </div>
+
   <button onclick="returnToList()">Return to list</button>
 </div>
+
+<!-- Prism.js JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<!-- Language Plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 <script>
   function returnToList() {
     location.href = '../list';

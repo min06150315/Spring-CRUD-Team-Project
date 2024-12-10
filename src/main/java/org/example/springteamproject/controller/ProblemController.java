@@ -19,8 +19,6 @@ import java.nio.file.Paths;
 @Controller
 public class ProblemController {
 
-    private final String UPLOAD_DIR = new File("").getAbsolutePath() + "/upload";
-
     @Autowired
     ProblemService problemService;
 
@@ -31,8 +29,6 @@ public class ProblemController {
 
     @RequestMapping(value = "/problem/list", method = RequestMethod.GET)
     public String problemList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model) {
-        System.out.println("Search Keyword: " + searchKeyword);
-
         if (searchKeyword != null && !searchKeyword.isEmpty()) {
             model.addAttribute("list", problemService.searchProblems(searchKeyword));
         } else {
@@ -46,9 +42,34 @@ public class ProblemController {
     }
 
     @RequestMapping("/problem/view/{id}")
-    public String problemView(@PathVariable("id") Integer id, Model model) {
+    public String problemView(@PathVariable("id") Integer id, Model model, HttpServletRequest request) throws IOException {
         ProblemVO problemVO = problemService.getProblem(id);
+        if (problemVO == null) {
+            throw new IllegalArgumentException("문제를 찾을 수 없습니다.");
+        }
+
         model.addAttribute("problemVO", problemVO);
+
+        String fileContent = "";
+        if (problemVO.getFilePath() != null) {
+            String filePath = getUploadDir(request) + "/" + problemVO.getFilePath();
+            StringBuilder contentBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    contentBuilder.append(line).append("\n");
+                }
+            } catch (IOException e) {
+                System.out.println("파일 읽기 실패: " + e.getMessage());
+            }
+            fileContent = contentBuilder.toString();
+        }
+
+        String language = problemVO.getLanguage() != null ? problemVO.getLanguage().toLowerCase() : "plaintext";
+
+        model.addAttribute("codeContent", fileContent);
+        model.addAttribute("language", language);
+
         return "problem/view";
     }
 
@@ -59,26 +80,20 @@ public class ProblemController {
 
     @RequestMapping(value = "/problem/addok", method = RequestMethod.POST)
     public String problemAddOK(@ModelAttribute ProblemVO vo, HttpServletRequest request) {
-        System.out.println("Received VO: " + vo); // 디버그용 로그
-
         if (vo.getTitle() == null || vo.getTitle().isEmpty()) {
-            System.out.println("Title is null or empty!");
             return "redirect:problem/add?error=title_missing";
         }
 
         try {
-            // 업로드된 파일 처리
             MultipartFile file = vo.getFile();
             if (file != null && !file.isEmpty()) {
-                String savedFileName = saveFileWithRenamePolicy(file, request); // 파일 저장
-                vo.setFilePath(savedFileName); // 저장된 경로를 VO에 설정
+                String savedFileName = saveFileWithRenamePolicy(file, request);
+                vo.setFilePath(savedFileName);
             }
 
             int i = problemService.insertProblem(vo);
             if (i == 0) {
-                System.out.println("데이터 추가 실패!");
-            } else {
-                System.out.println("데이터 추가 성공!");
+                return "redirect:problem/add?error=insert_failed";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,22 +114,16 @@ public class ProblemController {
     public String problemEditOK(@ModelAttribute ProblemVO vo, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         try {
             if (vo.getFilePath() == null || vo.getFilePath().isEmpty()) {
-                vo.setFilePath("default/path"); // 기본값 설정
+                vo.setFilePath("default/path");
             }
 
-            // 기존 파일 삭제 및 새 파일 저장
-            deleteFile(vo.getFilePath());
-            String savedFileName = saveFileWithRenamePolicy(file, request); // 파일 저장
-            vo.setFilePath(savedFileName); // 저장된 경로를 VO에 설정
+            deleteFile(vo.getFilePath(), request);
+            String savedFileName = saveFileWithRenamePolicy(file, request);
+            vo.setFilePath(savedFileName);
 
             int i = problemService.updateProblem(vo);
             if (i == 0) {
-                System.out.println("데이터 수정 실패!");
                 return "redirect:/problem/edit/" + vo.getId() + "?error=update_failed";
-            } else {
-                System.out.println("데이터 수정 성공!");
-                System.out.println("Saved File Path: " + savedFileName);
-                System.out.println("VO File Path Before Update: " + vo.getFilePath());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,23 +133,24 @@ public class ProblemController {
     }
 
     @RequestMapping(value = "/problem/delete/{id}", method = RequestMethod.GET)
-    public String problemDelete(@PathVariable("id") Integer id) {
+    public String problemDelete(@PathVariable("id") Integer id, HttpServletRequest request) {
         ProblemVO problemVO = problemService.getProblem(id);
         if (problemVO != null) {
-            deleteFile(problemVO.getFilePath()); // 파일 삭제
+            deleteFile(problemVO.getFilePath(), request);
             problemService.deleteProblem(id);
         }
         return "redirect:/problem/list";
     }
 
     @GetMapping("/problem/download/{id}")
-    public void downloadFile(@PathVariable("id") Integer id, HttpServletResponse response) {
+    public void downloadFile(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response) {
         ProblemVO problem = problemService.getProblem(id);
         if (problem == null || problem.getFilePath() == null) {
             throw new IllegalArgumentException("파일을 찾을 수 없습니다.");
         }
 
-        File file = new File(UPLOAD_DIR, problem.getFilePath());
+        String uploadDirPath = getUploadDir(request);
+        File file = new File(uploadDirPath, problem.getFilePath());
         if (!file.exists()) {
             throw new IllegalArgumentException("파일이 존재하지 않습니다.");
         }
@@ -148,12 +158,10 @@ public class ProblemController {
         try (InputStream in = new FileInputStream(file);
              OutputStream out = response.getOutputStream()) {
 
-            // 다운로드 헤더 설정
             response.setContentType(Files.probeContentType(Paths.get(file.getAbsolutePath())));
             response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(file.getName(), "UTF-8") + "\"");
             response.setContentLength((int) file.length());
 
-            // 파일 데이터 복사
             byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(buffer)) != -1) {
@@ -164,39 +172,40 @@ public class ProblemController {
         }
     }
 
-    // 파일 저장 처리
+    // Helper method to get upload directory path
+    private String getUploadDir(HttpServletRequest request) {
+        return request.getServletContext().getRealPath("/WEB-INF/upload");
+    }
+
     private String saveFileWithRenamePolicy(MultipartFile file, HttpServletRequest request) throws IOException {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("빈 파일입니다.");
         }
 
-        String uploadDirPath = request.getServletContext().getRealPath("/WEB-INF/upload");
+        String uploadDirPath = getUploadDir(request);
         File uploadDir = new File(uploadDirPath);
 
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
 
-        // 파일 저장 경로와 원본 파일 이름 설정
         String originalFileName = file.getOriginalFilename();
         File destinationFile = new File(uploadDir, originalFileName);
 
-        // 파일 이름 중복 처리
         DefaultFileRenamePolicy renamePolicy = new DefaultFileRenamePolicy();
         File renamedFile = renamePolicy.rename(destinationFile);
 
-        // 파일 저장
         file.transferTo(renamedFile);
 
-        return renamedFile.getName(); // 저장된 파일 이름 반환
+        return renamedFile.getName();
     }
 
-    // 파일 삭제 처리
-    private void deleteFile(String fileName) {
+    private void deleteFile(String fileName, HttpServletRequest request) {
         if (fileName == null || fileName.isEmpty()) {
             return;
         }
-        File file = new File(UPLOAD_DIR, fileName);
+        String uploadDirPath = getUploadDir(request);
+        File file = new File(uploadDirPath, fileName);
         if (file.exists()) {
             file.delete();
         }
