@@ -11,8 +11,13 @@
 
     <update id="updateProblem">
         UPDATE PROBLEMS
-        SET title=#{title}, description=#{description}, language=#{language}, difficulty=#{difficulty}
-        WHERE id=#{id}
+        SET
+            title = #{title},
+            description = #{description},
+            language = #{language},
+            filePath = #{filePath},
+            difficulty = #{difficulty}
+        WHERE id = #{id}
     </update>
 
     <delete id="deleteProblem">
