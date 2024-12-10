@@ -21,6 +21,10 @@
 </head>
 <body class="bg-light">
 <div class="container my-4">
+  <form method="get" action="${pageContext.request.contextPath}/problem/list">
+    <input type="text" name="searchKeyword" placeholder="Search by Title" value="${param.searchKeyword}" />
+    <button type="submit">Search</button>
+  </form>
 
   <table class="table table-bordered table-striped text-center">
     <thead class="table-primary">
