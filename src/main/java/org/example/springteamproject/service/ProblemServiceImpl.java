@@ -42,4 +42,9 @@ public class ProblemServiceImpl implements ProblemService {
     public List<ProblemVO> getProblemList() {
         return problemDAO.getProblemList();
     }
+
+    @Override
+    public List<ProblemVO> searchProblems(String keyword) {
+        return problemDAO.searchProblems("%" + keyword + "%"); // 검색 키워드에 와일드카드 추가
+    }
 }

@@ -36,4 +36,7 @@ public class ProblemDAO {
     public List<ProblemVO> getProblemList() {
         return problemMapper.getProblemList();
     }
+    public List<ProblemVO> searchProblems(String keyword) {
+        return problemMapper.searchProblems("%" + keyword + "%"); // 검색 키워드에 와일드카드 추가
+    }
 }

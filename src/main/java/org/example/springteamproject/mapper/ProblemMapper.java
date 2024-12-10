@@ -13,4 +13,5 @@ public interface ProblemMapper {
     ProblemVO getProblem(int id);
     int getTotalCnt();
     List<ProblemVO> getProblemList();
+    List<ProblemVO> searchProblems(String keyword);
 }
