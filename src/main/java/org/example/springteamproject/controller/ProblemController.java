@@ -15,7 +15,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @Controller
 public class ProblemController {
@@ -27,26 +26,26 @@ public class ProblemController {
 
     @RequestMapping("/")
     public String home() {
-        return "index";
+        return "home/index";
     }
 
     @RequestMapping(value = "/problem/list", method = RequestMethod.GET)
     public String problemList(Model model) {
         model.addAttribute("totalcnt", problemService.getTotalCnt());
         model.addAttribute("list", problemService.getProblemList());
-        return "list";
+        return "problem/list";
     }
 
     @RequestMapping("/problem/view/{id}")
     public String problemView(@PathVariable("id") Integer id, Model model) {
         ProblemVO problemVO = problemService.getProblem(id);
         model.addAttribute("problemVO", problemVO);
-        return "view";
+        return "problem/view";
     }
 
     @RequestMapping(value = "/problem/add", method = RequestMethod.GET)
     public String problemAdd() {
-        return "add";
+        return "problem/add";
     }
 
     @RequestMapping(value = "/problem/addok", method = RequestMethod.POST)
@@ -55,7 +54,7 @@ public class ProblemController {
 
         if (vo.getTitle() == null || vo.getTitle().isEmpty()) {
             System.out.println("Title is null or empty!");
-            return "redirect:add?error=title_missing";
+            return "redirect:problem/add?error=title_missing";
         }
 
         try {
@@ -74,17 +73,17 @@ public class ProblemController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:add?error=upload_failed";
+            return "redirect:problem/add?error=upload_failed";
         }
 
-        return "redirect:list";
+        return "redirect:problem/list";
     }
 
     @RequestMapping(value = "/problem/edit/{id}", method = RequestMethod.GET)
     public String problemEdit(@PathVariable("id") Integer id, Model model) {
         ProblemVO problemVO = problemService.getProblem(id);
         model.addAttribute("problemVO", problemVO);
-        return "edit";
+        return "problem/edit";
     }
 
     @RequestMapping(value = "/problem/editok", method = RequestMethod.POST)
