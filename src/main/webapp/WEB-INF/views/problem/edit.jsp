@@ -11,31 +11,32 @@
 
 <h1>Edit Post</h1>
 <form modelAttribute="problemVO" action="${pageContext.request.contextPath}/problem/editok" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="${problemVO.id}" />
     <table>
         <tr>
             <td><label for="title">Title: </label></td>
-            <td><input path="title" id="title" required="true"/></td>
+            <td><input type="text" id="title" name="title" value="${problemVO.title}" required /></td>
         </tr>
         <tr>
             <td><label for="description">Description: </label></td>
-            <td><input path="description" id="description" required="true"/></td>
+            <td><input type="text" id="description" name="description" value="${problemVO.description}" required /></td>
         </tr>
         <tr>
             <td><label for="language">Language: </label></td>
-            <td><input path="language" id="language" required="true"/></td>
+            <td><input type="text" id="language" name="language" value="${problemVO.language}" required /></td>
         </tr>
         <tr>
             <td><label for="file">File Upload: </label></td>
-            <td><input path="file" id="file" type="file"/></td>
+            <td><input type="file" id="file" name="file" required /></td>
         </tr>
         <tr>
             <td><label for="difficulty">Difficulty: </label></td>
             <td>
-                <select path="difficulty" id="difficulty">
-                    <option value="" label="Select the Difficulty" disabled="true" />
-                    <option value="Easy" label="Easy"/>
-                    <option value="Medium" label="Medium"/>
-                    <option value="Hard" label="Hard"/>
+                <select id="difficulty" name="difficulty" required>
+                    <option disabled>Select the Difficulty</option>
+                    <option value="Easy" ${problemVO.difficulty == 'Easy' ? 'selected' : ''}>Easy</option>
+                    <option value="Medium" ${problemVO.difficulty == 'Medium' ? 'selected' : ''}>Medium</option>
+                    <option value="Hard" ${problemVO.difficulty == 'Hard' ? 'selected' : ''}>Hard</option>
                 </select>
             </td>
         </tr>
