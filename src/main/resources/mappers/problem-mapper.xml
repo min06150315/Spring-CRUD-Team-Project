@@ -35,4 +35,10 @@
     <select id="getProblemList" resultType="org.example.springteamproject.vo.ProblemVO">
         SELECT * FROM PROBLEMS ORDER BY id DESC
     </select>
+
+    <select id="searchProblems" resultType="org.example.springteamproject.vo.ProblemVO">
+        SELECT * FROM PROBLEMS
+        WHERE title LIKE #{keyword}
+        ORDER BY id DESC
+    </select>
 </mapper>
