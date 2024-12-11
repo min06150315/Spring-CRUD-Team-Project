@@ -1,4 +1,4 @@
 package org.example.springteamproject.service;
 
-public class MemberService {
+public interface MemberService {
 }

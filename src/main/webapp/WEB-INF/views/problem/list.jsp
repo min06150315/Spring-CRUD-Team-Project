@@ -12,6 +12,7 @@
   <title>CodeShareHub</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet"/>
   <script>
     function delete_ok(id){
       var a = confirm("정말로 삭제하겠습니까?");
@@ -20,6 +21,7 @@
   </script>
 </head>
 <body class="bg-light">
+<div class="login"><a href="../login">go to login</a></div>
 <div class="container my-4">
   <form method="get" action="${pageContext.request.contextPath}/problem/list">
     <input type="text" name="searchKeyword" placeholder="Search by Title" value="${param.searchKeyword}" />
