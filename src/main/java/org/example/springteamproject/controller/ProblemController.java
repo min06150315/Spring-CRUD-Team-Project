@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.file.Files;
@@ -28,7 +29,7 @@ public class ProblemController {
     }
 
     @RequestMapping(value = "/problem/list", method = RequestMethod.GET)
-    public String problemList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model) {
+    public String problemList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model, HttpSession session) {
         if (searchKeyword != null && !searchKeyword.isEmpty()) {
             model.addAttribute("list", problemService.searchProblems(searchKeyword));
         } else {
@@ -37,6 +38,7 @@ public class ProblemController {
 
         model.addAttribute("totalcnt", problemService.getTotalCnt());
         model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("userInfo", session.getAttribute("login"));
 
         return "problem/list";
     }

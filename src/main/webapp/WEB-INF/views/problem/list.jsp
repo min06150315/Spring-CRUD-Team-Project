@@ -12,7 +12,7 @@
   <title>CodeShareHub</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="../css/list.css" rel="stylesheet"/>
   <script>
     function delete_ok(id){
       var a = confirm("정말로 삭제하겠습니까?");
