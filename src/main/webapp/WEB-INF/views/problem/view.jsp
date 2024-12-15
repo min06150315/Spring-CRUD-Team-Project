@@ -11,71 +11,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>글 보기</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    .container {
-      width: 90%;
-      max-width: 600px;
-      margin: 50px auto;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    h1 {
-      font-size: 1.5em;
-      color: #333;
-      margin-bottom: 20px;
-    }
-    .detail {
-      margin-bottom: 15px;
-    }
-    .detail strong {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .detail p {
-      margin: 0;
-      padding: 5px 0;
-      background: #f0f0f0;
-      border-radius: 4px;
-      padding-left: 10px;
-    }
-    button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .code-block {
-      margin-top: 30px;
-    }
-    pre {
-      background: #f0f0f0;
-      padding: 15px;
-      border-radius: 4px;
-      overflow-x: auto;
-    }
-  </style>
+  <link href="${pageContext.request.contextPath}/css/view.css" rel="stylesheet" />
   <!-- Prism.js CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css" rel="stylesheet" />
+  <title>View Page</title>
 </head>
-<!-- TODO: Make Code Preview Feature -->
 <body>
 <div class="container">
   <h1>글 세부 정보</h1>
@@ -102,16 +42,13 @@
   <div class="code-block">
     <h2>소스 코드</h2>
     <pre><code id="code" class="language-${problemVO.language.toLowerCase()}">${codeContent}</code></pre>
-  </div>
 
+  </div>
   <button onclick="returnToList()">Return to list</button>
+  <button id="copy-button" class="btn btn-primary mt-2" onclick="copyToClipboard()">Copy Code</button>
   <button id="run-button" onclick="redirectToCompilerSite()">Run Code!</button>
-  <a href="../edit/${problemVO.id}">
-    <button>Edit</button>
-  </a>
-  <a href="../delete/${problemVO.id}">
-    <button>Delete</button>
-  </a>
+  <a href="../edit/${problemVO.id}" class="button edit">Edit</a>
+  <a href="../delete/${problemVO.id}" class="button delete">Delete</a>
 </div>
 
 <!-- Prism.js JavaScript -->
@@ -133,13 +70,19 @@
   }
 
   function copyToClipboard() {
-    const text = document.getElementById("code").textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      //alert("클립보드에 복사되었습니다!");
-      console.log("Copied to the clipboard!");
-    }).catch(err => {
-      alert("복사 실패: " + err);
-    });
+    try {
+      const text = document.getElementById("code").innerText; // 소스 코드 텍스트 가져오기
+      navigator.clipboard.writeText(text).then(() => {
+        alert("코드가 클립보드에 복사되었습니다!");
+        console.log("Code copied to clipboard!");
+      }).catch(err => {
+        alert("복사 실패: 브라우저가 복사 기능을 지원하지 않습니다. (" + err.message + ")");
+        console.error("Clipboard error:", err);
+      });
+    } catch (e) {
+      alert("복사 실패: 예기치 않은 오류가 발생했습니다. (" + e.message + ")");
+      console.error("Unexpected error:", e);
+    }
   }
 </script>
 </body>

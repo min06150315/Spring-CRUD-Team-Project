@@ -4,7 +4,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Post</title>
+    <link href="${pageContext.request.contextPath}/css/add.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -21,7 +23,15 @@
         </tr>
         <tr>
             <td><label for="language">Language: </label></td>
-            <td><input type="text" name="language" id="language" required /></td>
+            <td>
+                <select name="language" id="language" required>
+                    <option disabled selected value="">Select a Language</option>
+                    <option>C</option>
+                    <option>Cpp</option>
+                    <option>Java</option>
+                    <option>Python</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td><label for="file">File Upload: </label></td>

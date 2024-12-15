@@ -9,35 +9,41 @@
 <html lang="ko">
 <head>
   <meta http-equiv="Content-Type" content="text/html" charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CodeShareHub</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../css/list.css" rel="stylesheet"/>
+  <link href="${pageContext.request.contextPath}/css/list.css" rel="stylesheet" />
+
   <script>
-    function delete_ok(id){
+    function delete_ok(id) {
       var a = confirm("정말로 삭제하겠습니까?");
-      if(a) location.href='./delete/' + id;
+      if (a) location.href = './delete/' + id;
     }
   </script>
 </head>
-<body class="bg-light">
+<body>
 <div class="login">
-  <a href="../login">login</a>
-  <a href="../logout">logout</a>
-  <!-- display username here -->
-  <p>Logined User: ${userInfo.username}</p>
+  <a href="../login">Login</a>
+  <a href="../logout">Logout</a>
+  <p>Logined User: <span class="username-highlight">${userInfo.username}</span></p>
 </div>
-<div class="container my-4">
-  <form method="get" action="${pageContext.request.contextPath}/problem/list">
-    <input type="text" name="searchKeyword" placeholder="Search by Title" value="${param.searchKeyword}" />
-    <select name="sorting">
-      <option value="id">id</option>
-      <option value="title">name</option>
-      <option value="difficulty">difficulty</option>
-    </select>
-    <button type="submit">Search</button>
-  </form>
 
+<div class="container my-4">
+  <!-- Search Box -->
+  <div class="search-box">
+    <form method="get" action="${pageContext.request.contextPath}/problem/list">
+      <input type="text" name="searchKeyword" placeholder="Search by Title" value="${param.searchKeyword}" />
+      <select name="sorting">
+        <option value="id">ID</option>
+        <option value="title">Name</option>
+        <option value="difficulty">Difficulty</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <!-- Data Table -->
   <table class="table table-bordered table-striped text-center">
     <thead class="table-primary">
     <tr>
@@ -46,28 +52,24 @@
       <th scope="col">Language</th>
       <th scope="col">Difficulty</th>
       <th scope="col">Writer</th>
-<%--      <th scope="col">Created Date</th>--%>
-<%--      <th scope="col">Edit</th>--%>
-<%--      <th scope="col">Delete</th>--%>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${list}" var="u" varStatus="status">
       <tr>
-        <td>${totalcnt-status.index}</td>
-        <td><a href="./view/${u.id}">${u.title}</a></td>
+        <!-- ID를 오름차순으로 표시 -->
+        <td>${status.index + 1}</td>
+        <td><a href="./view/${u.id}" class="text-decoration-none text-primary">${u.title}</a></td>
         <td>${u.language}</td>
         <td>${u.difficulty}</td>
         <td>${u.writer}</td>
-<%--        <td>${u.created_at}</td>--%>
-<%--        <td><a href="edit/${u.id}" class="btn btn-warning btn-sm">Edit</a></td>--%>
-<%--        <td><button class="btn btn-danger btn-sm" onclick="delete_ok('${u.id}')">Delete</button></td>--%>
       </tr>
     </c:forEach>
     </tbody>
   </table>
 
-  <div class="text-end">
+  <!-- Add New Post Button -->
+  <div class="text-end mt-3">
     <a href="./add" class="btn btn-success">Add New Post</a>
   </div>
 </div>

@@ -7,7 +7,7 @@
 </head>
 <body>
     <footer>
-        <p style="text-align: center">&copy; 2024-2 웹 서비스 개발</p>
+        <p style="text-align: center">&copy; 2024-2 Web Service Development</p>
     </footer>
 </body>
 </html>

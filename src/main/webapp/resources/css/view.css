@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.detail {
+    margin-bottom: 15px;
+}
+
+.detail strong {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.detail p {
+    margin: 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding-left: 10px;
+    color: #212529;
+}
+button {
+    display: inline-block;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button#run-button {
+    background-color: #007bff;
+    color: white;
+}
+
+button#copy-button {
+    background-color: #1CA345;
+    color: white;
+}
+
+button#run-button:hover {
+    background-color: #0056b3;
+}
+
+.button.edit {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.button.edit:hover {
+    background-color: #e0a800;
+}
+
+.button.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.button.delete:hover {
+    background-color: #c82333;
+}
+
+.code-block {
+    margin-top: 30px;
+}
+
+pre {
+    background: #f0f0f0;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #212529;
+}

@@ -5,7 +5,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Post</title>
+    <link href="${pageContext.request.contextPath}/css/edit.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -23,7 +25,15 @@
         </tr>
         <tr>
             <td><label for="language">Language: </label></td>
-            <td><input type="text" id="language" name="language" value="${problemVO.language}" required /></td>
+            <td>
+                <select id="language" name="language" required>
+                    <option disabled>Select a Language</option>
+                    <option value="C" ${problemVO.language == 'C' ? 'selected' : ''}>C</option>
+                    <option value="Cpp" ${problemVO.language == 'Cpp' ? 'selected' : ''}>Cpp</option>
+                    <option value="Java" ${problemVO.language == 'Java' ? 'selected' : ''}>Java</option>
+                    <option value="Python" ${problemVO.language == 'Python' ? 'selected' : ''}>Python</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td><label for="file">File Upload: </label></td>
