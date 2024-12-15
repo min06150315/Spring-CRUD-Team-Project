@@ -106,6 +106,12 @@
 
   <button onclick="returnToList()">Return to list</button>
   <button onclick="redirectToCompilerSite()">Run Code!</button>
+  <a href="../edit/${problemVO.id}">
+    <button>Edit</button>
+  </a>
+  <a href="../delete/${problemVO.id}">
+    <button>Delete</button>
+  </a>
 </div>
 
 <!-- Prism.js JavaScript -->
