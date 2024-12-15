@@ -101,11 +101,11 @@
   <!-- Source Code Preview -->
   <div class="code-block">
     <h2>소스 코드</h2>
-    <pre><code class="language-${problemVO.language.toLowerCase()}">${codeContent}</code></pre>
+    <pre><code id="code" class="language-${problemVO.language.toLowerCase()}">${codeContent}</code></pre>
   </div>
 
   <button onclick="returnToList()">Return to list</button>
-  <button onclick="redirectToCompilerSite()">Run Code!</button>
+  <button id="run-button" onclick="redirectToCompilerSite()">Run Code!</button>
   <a href="../edit/${problemVO.id}">
     <button>Edit</button>
   </a>
@@ -128,7 +128,18 @@
 
   function redirectToCompilerSite() {
     websiteURL = '${url}';
+    copyToClipboard();
     window.open(websiteURL, '_blank');
+  }
+
+  function copyToClipboard() {
+    const text = document.getElementById("code").textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      //alert("클립보드에 복사되었습니다!");
+      console.log("Copied to the clipboard!");
+    }).catch(err => {
+      alert("복사 실패: " + err);
+    });
   }
 </script>
 </body>
