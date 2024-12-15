@@ -21,7 +21,11 @@
   </script>
 </head>
 <body class="bg-light">
-<div class="login"><a href="../login">go to login</a></div>
+<div class="login">
+  <a href="../login">go to login</a>
+  <!-- display username here -->
+  <p>Logined User: ${userInfo.username}</p>
+</div>
 <div class="container my-4">
   <form method="get" action="${pageContext.request.contextPath}/problem/list">
     <input type="text" name="searchKeyword" placeholder="Search by Title" value="${param.searchKeyword}" />
@@ -36,9 +40,9 @@
       <th scope="col">Language</th>
       <th scope="col">Difficulty</th>
       <th scope="col">Writer</th>
-      <th scope="col">Created Date</th>
-      <th scope="col">Edit</th>
-      <th scope="col">Delete</th>
+<%--      <th scope="col">Created Date</th>--%>
+<%--      <th scope="col">Edit</th>--%>
+<%--      <th scope="col">Delete</th>--%>
     </tr>
     </thead>
     <tbody>
@@ -49,9 +53,9 @@
         <td>${u.language}</td>
         <td>${u.difficulty}</td>
         <td>${u.writer}</td>
-        <td>${u.created_at}</td>
-        <td><a href="edit/${u.id}" class="btn btn-warning btn-sm">Edit</a></td>
-        <td><button class="btn btn-danger btn-sm" onclick="delete_ok('${u.id}')">Delete</button></td>
+<%--        <td>${u.created_at}</td>--%>
+<%--        <td><a href="edit/${u.id}" class="btn btn-warning btn-sm">Edit</a></td>--%>
+<%--        <td><button class="btn btn-danger btn-sm" onclick="delete_ok('${u.id}')">Delete</button></td>--%>
       </tr>
     </c:forEach>
     </tbody>
@@ -65,4 +69,6 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+</body>
+</html>
 <%@ include file="../layout/footer.jsp" %>
