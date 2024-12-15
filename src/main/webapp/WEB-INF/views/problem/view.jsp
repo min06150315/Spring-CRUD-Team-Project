@@ -105,6 +105,7 @@
   </div>
 
   <button onclick="returnToList()">Return to list</button>
+  <button onclick="redirectToCompilerSite()">Run Code!</button>
 </div>
 
 <!-- Prism.js JavaScript -->
@@ -117,6 +118,11 @@
 <script>
   function returnToList() {
     location.href = '../list';
+  }
+
+  function redirectToCompilerSite() {
+    websiteURL = '${url}';
+    window.open(websiteURL, '_blank');
   }
 </script>
 </body>

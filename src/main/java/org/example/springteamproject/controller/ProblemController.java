@@ -1,6 +1,7 @@
 package org.example.springteamproject.controller;
 
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import org.example.springteamproject.dao.URLDAO;
 import org.example.springteamproject.service.ProblemService;
 import org.example.springteamproject.vo.ProblemVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class ProblemController {
 
     @Autowired
     ProblemService problemService;
+
+    @Autowired
+    private URLDAO urldao;
 
     @RequestMapping("/")
     public String home() {
@@ -71,6 +75,10 @@ public class ProblemController {
 
         model.addAttribute("codeContent", fileContent);
         model.addAttribute("language", language);
+
+        String url = urldao.getURL(language);
+
+        model.addAttribute("url", url);
 
         return "problem/view";
     }
