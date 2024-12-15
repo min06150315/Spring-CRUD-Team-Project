@@ -3,6 +3,7 @@ package org.example.springteamproject.controller;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import org.example.springteamproject.dao.URLDAO;
 import org.example.springteamproject.service.ProblemService;
+import org.example.springteamproject.vo.MemberVO;
 import org.example.springteamproject.vo.ProblemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -114,10 +115,21 @@ public class ProblemController {
     }
 
     @RequestMapping(value = "/problem/edit/{id}", method = RequestMethod.GET)
-    public String problemEdit(@PathVariable("id") Integer id, Model model) {
+    public String problemEdit(@PathVariable("id") Integer id, Model model, HttpSession session) {
+        String returnURL = "";
+
+        String sessionUsername = ((MemberVO)session.getAttribute("login")).getUsername();
         ProblemVO problemVO = problemService.getProblem(id);
-        model.addAttribute("problemVO", problemVO);
-        return "problem/edit";
+
+        // if requesting user is admin OR the one that wrote the article
+        if (sessionUsername.equals("admin") || sessionUsername.equals(problemVO.getWriter())) {
+            returnURL = "problem/edit";
+            model.addAttribute("problemVO", problemVO);
+        } else {
+            returnURL = "redirect:/problem/list";
+        }
+
+        return returnURL;
     }
 
     @RequestMapping(value = "/problem/editok", method = RequestMethod.POST)
