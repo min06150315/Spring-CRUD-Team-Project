@@ -48,4 +48,10 @@ public class LoginController {
 
         return returnURL;
     }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:problem/list";
+    }
 }
