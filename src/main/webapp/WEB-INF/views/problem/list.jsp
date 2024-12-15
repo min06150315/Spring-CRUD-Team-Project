@@ -22,7 +22,8 @@
 </head>
 <body class="bg-light">
 <div class="login">
-  <a href="../login">go to login</a>
+  <a href="../login">login</a>
+  <a href="../logout">logout</a>
   <!-- display username here -->
   <p>Logined User: ${userInfo.username}</p>
 </div>
