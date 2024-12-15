@@ -30,6 +30,11 @@
 <div class="container my-4">
   <form method="get" action="${pageContext.request.contextPath}/problem/list">
     <input type="text" name="searchKeyword" placeholder="Search by Title" value="${param.searchKeyword}" />
+    <select name="sorting">
+      <option value="id">id</option>
+      <option value="title">name</option>
+      <option value="difficulty">difficulty</option>
+    </select>
     <button type="submit">Search</button>
   </form>
 

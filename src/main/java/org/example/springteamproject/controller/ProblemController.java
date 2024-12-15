@@ -18,6 +18,9 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 public class ProblemController {
@@ -34,16 +37,50 @@ public class ProblemController {
     }
 
     @RequestMapping(value = "/problem/list", method = RequestMethod.GET)
-    public String problemList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Model model, HttpSession session) {
+    public String problemList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                              @RequestParam(value = "sorting", defaultValue = "id", required = false) String sortMethod, Model model, HttpSession session) {
+
+//        System.out.println("searchKeyword = " + searchKeyword);
+//        System.out.println("sortMethod = " + sortMethod);
+//        // sortMethod가 null이거나 빈 문자열이면 "id"로 기본값 설정
+//        if (sortMethod == null || sortMethod.isEmpty()) {
+//            sortMethod = "id";
+//        }
+        
+        List<ProblemVO> list;
         if (searchKeyword != null && !searchKeyword.isEmpty()) {
-            model.addAttribute("list", problemService.searchProblems(searchKeyword));
+            // model.addAttribute("list", problemService.searchProblems(searchKeyword));
+            list = problemService.searchProblems(searchKeyword);
         } else {
-            model.addAttribute("list", problemService.getProblemList());
+            // model.addAttribute("list", problemService.getProblemList());
+            list = problemService.getProblemList();
         }
+
+        System.out.println("list = " + list);
+
 
         model.addAttribute("totalcnt", problemService.getTotalCnt());
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("userInfo", session.getAttribute("login"));
+
+        // sort list here
+        if (sortMethod.equals("id")) {
+            list.sort(Comparator.comparing(ProblemVO::getId));
+        } else if (sortMethod.equals("title")) {
+            list.sort(Comparator.comparing(ProblemVO::getTitle));
+        } else if (sortMethod.equals("difficulty")) {
+            list.sort(new Comparator<ProblemVO>() {
+                @Override
+                public int compare(ProblemVO s1, ProblemVO s2) {
+                    List<String> level = Arrays.asList("Easy", "Medium", "Hard");
+                    int numS1 = level.indexOf(s1.getDifficulty());
+                    int numS2 = level.indexOf(s2.getDifficulty());
+                    return numS1 - numS2;
+                }
+            });
+        }
+
+        model.addAttribute("list", list);
 
         return "problem/list";
     }
